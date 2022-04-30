@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_sample/provider.dart';
 
 void main() {
-  runApp(ProviderScope(child: MyApp()));
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -16,21 +18,21 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Home(
-        title: 'Flutter Demo Home page',
-      ),
+      home: const Home(),
     );
   }
 }
 
-@immutable
-class Home extends ConsumerWidget {
-  Home({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
+class Home extends ConsumerStatefulWidget {
+  const Home({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<Home> createState() => _HomeState();
+}
+
+class _HomeState extends ConsumerState<Home> {
+  // NOTE(okubo): ConsumerStateのなかでrefが定義されているので、シンプルにできる
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(ref.watch(titleProvider)),
@@ -45,7 +47,7 @@ class Home extends ConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => ref.read(countProvider.state).state++,
+        onPressed: () => (ref.read(countProvider.state).state++),
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
