@@ -10,4 +10,9 @@ final messageProvider =
 
 final countProvider = StateProvider<int>((ref) => 0);
 final countDataProvider = StateProvider<CountData>(
-    (ref) => CountData(count: 0, countUp: 0, countDown: 0));
+  (ref) => const CountData(
+    count: 0,
+    countUp: 0,
+    countDown: 0,
+  ),
+);
