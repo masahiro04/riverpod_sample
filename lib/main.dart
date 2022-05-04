@@ -75,12 +75,11 @@ class _HomeState extends ConsumerState<Home> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text(
-                    ref.read(countDataProvider.state).state.countUp.toString()),
                 Text(ref
-                    .read(countDataProvider.state)
-                    .state
-                    .countDown
+                    .watch(countDataProvider.select((value) => value.countUp))
+                    .toString()),
+                Text(ref
+                    .watch(countDataProvider.select((value) => value.countDown))
                     .toString()),
               ],
             )
@@ -89,8 +88,8 @@ class _HomeState extends ConsumerState<Home> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ref.read(countDataProvider.state).state =
-              const CountData(count: 0, countUp: 0, countDown: 0);
+          var testData = const CountData(count: 0, countUp: 0, countDown: 0);
+          ref.read(countDataProvider.state).state = testData;
         },
         tooltip: 'Increment',
         child: const Icon(Icons.refresh),
