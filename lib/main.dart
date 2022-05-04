@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_sample/data/count_data.dart';
 import 'package:riverpod_sample/provider.dart';
+import 'package:riverpod_sample/view_model.dart';
 
 void main() {
   runApp(ProviderScope(child: const MyApp()));
@@ -32,6 +33,14 @@ class Home extends ConsumerStatefulWidget {
 }
 
 class _HomeState extends ConsumerState<Home> {
+  final ViewModel _viewModel = ViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+    _viewModel.setRef(ref);
+  }
+
   // NOTE(okubo): ConsumerStateのなかでrefが定義されているので、シンプルにできる
   @override
   Widget build(BuildContext context) {
@@ -44,30 +53,16 @@ class _HomeState extends ConsumerState<Home> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(ref.watch(messageProvider).toString()),
-            Text(ref.watch(countDataProvider.state).state.count.toString()),
+            Text(_viewModel.count),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 FloatingActionButton(
-                  onPressed: () {
-                    CountData countData =
-                        ref.read(countDataProvider.state).state;
-                    ref.read(countDataProvider.state).state =
-                        countData.copyWith(
-                            count: countData.count + 1,
-                            countUp: countData.countUp + 1);
-                  },
+                  onPressed: _viewModel.onIncrease,
                   child: const Icon(CupertinoIcons.plus),
                 ),
                 FloatingActionButton(
-                  onPressed: () {
-                    CountData countData =
-                        ref.read(countDataProvider.state).state;
-                    ref.read(countDataProvider.state).state =
-                        countData.copyWith(
-                            count: countData.count - 1,
-                            countDown: countData.countDown + 1);
-                  },
+                  onPressed: _viewModel.onDecrease,
                   child: const Icon(CupertinoIcons.minus),
                 )
               ],
@@ -75,22 +70,15 @@ class _HomeState extends ConsumerState<Home> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text(ref
-                    .watch(countDataProvider.select((value) => value.countUp))
-                    .toString()),
-                Text(ref
-                    .watch(countDataProvider.select((value) => value.countDown))
-                    .toString()),
+                Text(_viewModel.countUp),
+                Text(_viewModel.countDown),
               ],
             )
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          var testData = const CountData(count: 0, countUp: 0, countDown: 0);
-          ref.read(countDataProvider.state).state = testData;
-        },
+        onPressed: _viewModel.onReset,
         tooltip: 'Increment',
         child: const Icon(Icons.refresh),
       ),
