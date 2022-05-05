@@ -17,6 +17,7 @@ dependencies:
   freezed_annotation: ^2.0.1
   json_serializable: ^6.2.0
   json_annotation: ^4.5.0
+  audioplayers: 0.20.1
 
 dev_dependencies:
   flutter_test:
@@ -30,5 +31,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-assets:
-- assets/
+  assets:
+    - assets/
+    - assets/sounds/

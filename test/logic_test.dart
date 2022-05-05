@@ -1,4 +1,4 @@
-import 'package:riverpod_sample/logic.dart';
+import 'package:riverpod_sample/logic/logic.dart';
 import 'package:test/test.dart';
 
 void main() {
