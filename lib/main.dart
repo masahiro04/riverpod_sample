@@ -34,14 +34,14 @@ class Home extends ConsumerStatefulWidget {
   ConsumerState<Home> createState() => _HomeState();
 }
 
-class _HomeState extends ConsumerState<Home> {
+class _HomeState extends ConsumerState<Home> with TickerProviderStateMixin {
   late ViewModel _viewModel;
 
   @override
   void initState() {
     super.initState();
     _viewModel = widget.viewModel;
-    _viewModel.setRef(ref);
+    _viewModel.setRef(ref, this);
   }
 
   // NOTE(okubo): ConsumerStateのなかでrefが定義されているので、シンプルにできる
@@ -62,7 +62,9 @@ class _HomeState extends ConsumerState<Home> {
               children: [
                 FloatingActionButton(
                   onPressed: _viewModel.onIncrease,
-                  child: const Icon(CupertinoIcons.plus),
+                  child: ScaleTransition(
+                      scale: _viewModel.animationPlus,
+                      child: const Icon(CupertinoIcons.plus)),
                 ),
                 FloatingActionButton(
                   onPressed: _viewModel.onDecrease,
