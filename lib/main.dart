@@ -68,7 +68,9 @@ class _HomeState extends ConsumerState<Home> with TickerProviderStateMixin {
                 ),
                 FloatingActionButton(
                   onPressed: _viewModel.onDecrease,
-                  child: const Icon(CupertinoIcons.minus),
+                  child: ScaleTransition(
+                      scale: _viewModel.animationMinus,
+                      child: const Icon(CupertinoIcons.minus)),
                 )
               ],
             ),
@@ -85,7 +87,8 @@ class _HomeState extends ConsumerState<Home> with TickerProviderStateMixin {
       floatingActionButton: FloatingActionButton(
         onPressed: _viewModel.onReset,
         tooltip: 'Increment',
-        child: const Icon(Icons.refresh),
+        child: ScaleTransition(
+            scale: _viewModel.animationReset, child: const Icon(Icons.refresh)),
       ),
     );
   }
